@@ -3,8 +3,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <p>test string</p>
+    <p>Base stats:</p>
+    <table>
+        <tr>
+            <th>HP</th>
+            <th>Def</th>
+            <th>SpDef</th>
+        </tr>
+        <tr>
+            <th><input type="number" min="1" max="65535" step="1" value="1" id="basehp" name="basehp"></th>
+            <th><input type="number" min="1" max="65535" step="1" value="1" id="basedef" name="basedef"></th>
+            <th><input type="number" min="1" max="65535" step="1" value="1" id="basespdef" name="basespdef"></th>
+        </tr>
+    </table>
+    <p>Multipliers:</p>
+    <table>
+        <tr>
+            <th>Def</th>
+            <th>SpDef</th>
+        </tr>
+        <tr>
+            <th><input type="number" min="1" max="65535" step="0.00001" value="1" id="defmultiplier" name="defmultiplier"></th>
+            <th><input type="number" min="1" max="65535" step="0.00001" value="1" id="spdefmultiplier" name="spdefmultiplier"></th>
+        </tr>
+    </table>
+
+    <p>Leftover EVs:</p>
+    <input type="number" min="4" max="510" step="1" value="510" id="leftoverevs" name="leftoverevs">
+    <p>Nature bonus available?</p>
+    <input type="radio" id="natureavailable" name="nature" value="yes" checked="checked">
+    <label for="natureavailable">Yes</label><br>
+    <input type="radio" id="naturenotavailable" name="nature" value="no">
+    <label for="naturenotavailable">No</label><br>
+    <p>Filter by HP?</p>
+    <input type="radio" id="filterresults" name="filter" value="yes">
+    <label for="filterresults">Yes</label><br>
+    <input type="radio" id="dontfilterresults" name="filter" value="no" checked="checked">
+    <label for="dontfilterresults">No</label><br>
+    <p>Filter:</p>
+    <table>
+        <tr><input type="number" min="2" max="16" step="1" value="2" id="filtercoefficient" name="filtercoefficient"></tr>
+        <tr> n + </tr>
+        <tr><input type="number" min="0" max="15" step="1" value="0" id="filterconstant" name="filterconstant"></tr>
+    </table>
+    <br>
+    <button type="button" onclick="calculate()">Calculate</button>
+    <br>
+    <p>Results</p>
+    <table id="resultstable"></table>
 </body>
 </html>
