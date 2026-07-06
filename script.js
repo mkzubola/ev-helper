@@ -1,20 +1,20 @@
 function calculate() {
 
-    const basehp = document.getElementById("basehp").value
-    const basedef = document.getElementById("basedef").value
-    const basespdef = document.getElementById("basespdef").value
+    const basehp = Number(document.getElementById("basehp").value)
+    const basedef = Number(document.getElementById("basedef").value)
+    const basespdef = Number(document.getElementById("basespdef").value)
 
-    const defmultiplier = document.getElementById("defmultiplier").value
-    const spdefmultiplier = document.getElementById("spdefmultiplier").value
+    const defmultiplier = Number(document.getElementById("defmultiplier").value)
+    const spdefmultiplier = Number(document.getElementById("spdefmultiplier").value)
 
-    const leftoverpoints = document.getElementById("leftoverpoints").value
+    const leftoverpoints = Number(document.getElementById("leftoverpoints").value)
 
     const naturebonusavailable = document.getElementById("natureavailable").checked
 
     const filterresults = document.getElementById("filterresults").checked
 
-    const filtercoefficient = document.getElementById("filtercoefficient").value
-    const filterconstant = document.getElementById("filterconstant").value
+    const filtercoefficient = Number(document.getElementById("filtercoefficient").value)
+    const filterconstant = Number(document.getElementById("filterconstant").value)
 
     let spreads = generatespreads(leftoverpoints, naturebonusavailable)
 
@@ -26,8 +26,6 @@ function calculate() {
     }
 
     spreads.sort((a, b) => b.tbi - a.tbi)
-
-    console.log(filterresults)
 
     if (filterresults) {
         spreads = spreads.filter((a) => a.hpstat % filtercoefficient == filterconstant)
