@@ -36,21 +36,19 @@ function calculate() {
     tableCreate(spreads)
 }
 
-function generatespreads(evs, naturebonusavailable) {
-    const allowedvalues = [0, 4, 12, 20, 28, 36, 44, 52, 60, 68, 76, 84, 92, 100, 108, 116, 124, 132, 140, 148, 156, 164, 172, 180, 188, 196, 204, 212, 220, 228, 236, 244, 252]
-    const allowedtotal1 = evs - evs % 4
-    const allowedtotal2 = allowedtotal1 - 4
+function generatespreads(leftoverevs, naturebonusavailable) {
+    const allowedvalues = [...Array(33).keys()];
     let allpossiblespreads = []
     for (let hp of allowedvalues) {
-        if (hp > allowedtotal2) {
+        if (hp > leftoverevs) {
             break
         }
         for (let def of allowedvalues) {
-            if (hp + def > allowedtotal2) {
+            if (hp + def > leftoverevs) {
                 break
             }
             for (let spdef of allowedvalues) {
-                if (hp + def + spdef == allowedtotal1 || hp + def + spdef == allowedtotal2) {
+                if (hp + def + spdef == leftoverevs) {
                     if (naturebonusavailable) {
                         allpossiblespreads.push({"hpevs":hp, "defevs": def, "spdefevs":spdef, "defnature":1.1, "spdefnature":1})
                         allpossiblespreads.push({"hpevs":hp, "defevs": def, "spdefevs":spdef, "defnature":1, "spdefnature":1.1})
@@ -66,11 +64,11 @@ function generatespreads(evs, naturebonusavailable) {
 }
 
 function calculatehp(basestat, evs) {
-    return Math.floor(Math.floor(basestat * 2 + 31 + evs / 4) * 0.5) + 60
+    return basestat + 75 + evs
 }
 
 function calculatedefs(basestat, evs, naturebonus) {
-    return Math.floor(Math.floor(Math.floor(basestat * 2 + 31 + evs / 4) * 0.5 + 5) * naturebonus)
+    return Math.floor((basestat + 20 + evs) * naturebonus)
 }
 
 function calculatetbi(hp, def, spdef) {
