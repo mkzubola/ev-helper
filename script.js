@@ -1,7 +1,6 @@
 function calculate() {
 
     const basehp = Number(document.getElementById("basehp").value)
-    console.log(typeof(basehp))
     const basedef = Number(document.getElementById("basedef").value)
     const basespdef = Number(document.getElementById("basespdef").value)
 
