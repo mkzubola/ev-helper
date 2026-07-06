@@ -7,7 +7,7 @@ function calculate() {
     const defmultiplier = document.getElementById("defmultiplier").value
     const spdefmultiplier = document.getElementById("spdefmultiplier").value
 
-    const leftoverevs = document.getElementById("leftoverevs").value
+    const leftoverpoints = document.getElementById("leftoverpoints").value
 
     const naturebonusavailable = document.getElementById("natureavailable").checked
 
@@ -16,12 +16,12 @@ function calculate() {
     const filtercoefficient = document.getElementById("filtercoefficient").value
     const filterconstant = document.getElementById("filterconstant").value
 
-    let spreads = generatespreads(leftoverevs, naturebonusavailable)
+    let spreads = generatespreads(leftoverpoints, naturebonusavailable)
 
     for (let i = 0; i < spreads.length; i++) {
-        spreads[i].hpstat = calculatehp(basehp, spreads[i].hpevs)
-        spreads[i].defstat = calculatedefs(basedef, spreads[i].defevs, spreads[i].defnature)
-        spreads[i].spdefstat = calculatedefs(basespdef, spreads[i].spdefevs, spreads[i].spdefnature)
+        spreads[i].hpstat = calculatehp(basehp, spreads[i].hppoints)
+        spreads[i].defstat = calculatedefs(basedef, spreads[i].defpoints, spreads[i].defnature)
+        spreads[i].spdefstat = calculatedefs(basespdef, spreads[i].spdefpoints, spreads[i].spdefnature)
         spreads[i].tbi = calculatetbi(spreads[i].hpstat, Math.floor(spreads[i].defstat * defmultiplier), Math.floor(spreads[i].spdefstat * spdefmultiplier))
     }
 
@@ -36,24 +36,24 @@ function calculate() {
     tableCreate(spreads)
 }
 
-function generatespreads(leftoverevs, naturebonusavailable) {
+function generatespreads(leftoverpoints, naturebonusavailable) {
     const allowedvalues = [...Array(33).keys()];
     let allpossiblespreads = []
     for (let hp of allowedvalues) {
-        if (hp > leftoverevs) {
+        if (hp > leftoverpoints) {
             break
         }
         for (let def of allowedvalues) {
-            if (hp + def > leftoverevs) {
+            if (hp + def > leftoverpoints) {
                 break
             }
             for (let spdef of allowedvalues) {
-                if (hp + def + spdef == leftoverevs) {
+                if (hp + def + spdef == leftoverpoints) {
                     if (naturebonusavailable) {
-                        allpossiblespreads.push({"hpevs":hp, "defevs": def, "spdefevs":spdef, "defnature":1.1, "spdefnature":1})
-                        allpossiblespreads.push({"hpevs":hp, "defevs": def, "spdefevs":spdef, "defnature":1, "spdefnature":1.1})
+                        allpossiblespreads.push({"hppoints":hp, "defpoints": def, "spdefpoints":spdef, "defnature":1.1, "spdefnature":1})
+                        allpossiblespreads.push({"hppoints":hp, "defpoints": def, "spdefpoints":spdef, "defnature":1, "spdefnature":1.1})
                     } else {
-                        allpossiblespreads.push({"hpevs":hp, "defevs": def, "spdefevs":spdef, "defnature":1, "spdefnature":1})
+                        allpossiblespreads.push({"hppoints":hp, "defpoints": def, "spdefpoints":spdef, "defnature":1, "spdefnature":1})
                     }
                     break
                 }
@@ -63,12 +63,12 @@ function generatespreads(leftoverevs, naturebonusavailable) {
     return allpossiblespreads
 }
 
-function calculatehp(basestat, evs) {
-    return basestat + 75 + evs
+function calculatehp(basestat, points) {
+    return basestat + 75 + points
 }
 
-function calculatedefs(basestat, evs, naturebonus) {
-    return Math.floor((basestat + 20 + evs) * naturebonus)
+function calculatedefs(basestat, points, naturebonus) {
+    return Math.floor((basestat + 20 + points) * naturebonus)
 }
 
 function calculatetbi(hp, def, spdef) {
@@ -91,9 +91,9 @@ function tableCreate(spreads) {
 
     for (let i = 0; i < spreads.length; i++) {
         const tr = tbl.insertRow();
-        tr.insertCell().appendChild(document.createTextNode(spreads[i].hpevs));
-        tr.insertCell().appendChild(document.createTextNode(spreads[i].defevs));
-        tr.insertCell().appendChild(document.createTextNode(spreads[i].spdefevs));
+        tr.insertCell().appendChild(document.createTextNode(spreads[i].hppoints));
+        tr.insertCell().appendChild(document.createTextNode(spreads[i].defpoints));
+        tr.insertCell().appendChild(document.createTextNode(spreads[i].spdefpoints));
         tr.insertCell().appendChild(document.createTextNode(spreads[i].defnature == 1.1 ? "Def" : spreads[i].spdefnature == 1.1 ? "SpDef" : "N/A"));
         tr.insertCell().appendChild(document.createTextNode(Math.round(spreads[i].tbi * 100) / 100));
     }
